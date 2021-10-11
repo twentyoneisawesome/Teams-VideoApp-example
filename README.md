@@ -18,3 +18,8 @@
 5. run `yarn start-container`
 6. open `https://localhost:9000/index.html` in your browser
 7. change `videoFrameHandler` function in `app/index.js`
+
+## WASM
+
+1. using emsdk 2.0.30, reference `https://emscripten.org/docs/getting_started/downloads.html` for installing and change version to 2.0.30 by `emsdk activate 2.0.30`
+2. compile to wasm by `emcc -o wasm-ccall.js -s TOTAL_MEMORY=64MB -s "EXPORTED_RUNTIME_METHODS=['ccall', 'cwrap']" -O3 wasm-ccall.cpp`
