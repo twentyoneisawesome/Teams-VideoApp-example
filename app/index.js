@@ -1,5 +1,5 @@
 microsoftTeams.initialize(() => {}, [
-  "https://lubobill1990.github.io",
+  "https://wcpeter1988.github.io",
 ]);
 
 // This is the effect for processing
@@ -14,15 +14,10 @@ let uiSelectedEffect = {};
 let errorOccurs = false;
 //Sample video effect
 function videoFrameHandler(videoFrame, notifyVideoProcessed, notifyError) {
-  const maxLen =
-    (videoFrame.height * videoFrame.width) /
-      Math.max(1, appliedEffect.proportion) - 4;
+  initRender();
+  refresh(videoFrame.data, notifyVideoProcessed, notifyError)
 
-  for (let i = 1; i < maxLen; i += 4) {
-    //smaple effect just change the value to 100, which effect some pixel value of video frame
-    videoFrame.data[i + 1] = appliedEffect.pixelValue;
-  }
-
+  /*
   //send notification the effect processing is finshed.
   notifyVideoProcessed();
 
@@ -30,6 +25,7 @@ function videoFrameHandler(videoFrame, notifyVideoProcessed, notifyError) {
   if (errorOccurs) {
     notifyError("some error message");
   }
+  */
 }
 
 function effectParameterChanged(effectName) {
@@ -61,6 +57,12 @@ microsoftTeams.video.registerForVideoEffect(effectParameterChanged);
 microsoftTeams.video.registerForVideoFrame(videoFrameHandler, {
   format: "NV12",
 });
+
+/*
+$(document).ready(function(){
+  initRender();
+});
+*/
 
 // any changes to the UI should notify Teams client.
 document.getElementById("enable_check").addEventListener("change", function () {
