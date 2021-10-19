@@ -64,6 +64,7 @@ function initVertexBuffers(gl, program) {
 
 sync = true
 rgba_f = false
+console.log('@sync: ', sync);
 
 function getNV12Array(buffer, size) {
     return new Uint8Array(Module.HEAPU8.buffer, buffer, size);
