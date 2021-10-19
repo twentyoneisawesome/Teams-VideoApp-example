@@ -62,7 +62,7 @@ function initVertexBuffers(gl, program) {
     return n;
 }
 
-sync = true
+sync = false
 rgba_f = false
 console.log('@sync: ', sync);
 
