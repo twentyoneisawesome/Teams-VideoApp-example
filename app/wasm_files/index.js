@@ -66,6 +66,12 @@ sync = true
 rgba_f = false
 console.log('@sync: ', sync);
 
+function getRender(gl, outptr, width, height, cont) {
+    var outRgbArray = getRGBAArray(outptr, width * height * 4);
+    gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, outRgbArray);    
+    cont();
+}
+
 function getNV12Array(buffer, size) {
     return new Uint8Array(Module.HEAPU8.buffer, buffer, size);
 }
@@ -334,20 +340,20 @@ const refresh = function (nv12Array, notifyProcessed, notifyError) {
     performance.measure('draw', 'readpixels');
 
     if (sync) {
-        getRender(gl, rgbRenderBuffer, width, height, function (outRgbArray) {
+        getRender(gl, rgbRenderBuffer, width, height, function () {
             performance.measure('copy pixels', 'readpixels');
-            micros = Module._speedtest_reverse(rgbRenderBuffer, nv12Buffer, width, height, 1);
-            performance.measure('convert back nv12', 'readpixels');
-            destroyInputTexture(gl);
-            var nv12NewArray = getNV12Array(nv12Buffer, width * height * 3 / 2);
-            nv12Array.set(nv12NewArray);
+            Module._YUV32toNV12(rgbRenderBuffer, rgbBuffer, width, height);
+            var nv12 = getNV12Array(rgbBuffer, width * height * 3 / 2);
+            nv12Array.set(nv12);            
 
             //send notification the effect processing is finshed.
             if (notifyProcessed)
                 notifyProcessed();
+
+            performance.measure('convert back nv12', 'readpixels');
+            destroyInputTexture(gl);            
         });
         performance.measure('copy pixels', 'readpixels');
-        destroyInputTexture(gl);
     }
     else {
         readPixelsAsync(gl, rgbRenderBuffer, width, height, function () {
