@@ -62,7 +62,7 @@ function initVertexBuffers(gl, program) {
     return n;
 }
 
-sync = false
+sync = true
 rgba_f = false
 
 function getNV12Array(buffer, size) {
