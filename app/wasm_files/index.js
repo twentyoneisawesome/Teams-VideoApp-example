@@ -31,7 +31,7 @@ function initVertexBuffers(gl, program) {
         1.0, -1.0, 1.0, 0.0,
     ]);
     var n = 4;
-
+ 
     gl.useProgram(program);
 
     var vertexTexCoordBuffer = gl.createBuffer();
